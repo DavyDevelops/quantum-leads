@@ -41,7 +41,7 @@ const getSubscription = async (userId: string) => {
     return null;
   }
 };
-
+//userId user_2Z1ejieeNvceauFHy4jUk8h6GQU
 async function LeadMagnetsPage() {
   const { userId } = auth();
 

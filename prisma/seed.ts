@@ -21,7 +21,7 @@ const seed = async () => {
       publishedTitle: "This is a published title",
       slug: "lead-magnet-slug",
       status: "draft",
-      userId: "user_2WruMGsskRrt6HDECpRhzNyH1vp",
+      userId: "user_2Z1ejieeNvceauFHy4jUk8h6GQU",
     },
   });
 
