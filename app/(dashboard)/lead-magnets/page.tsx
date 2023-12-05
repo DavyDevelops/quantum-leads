@@ -1,7 +1,7 @@
- import { prismadb } from "@/lib/prismadb";
+import { prismadb } from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import React from "react";
-//import LeadMagnetsContainer from "./components/LeadMagnetsContainer";
+import LeadMagnetsContainer from "./components/LeadMagnetsContainer";
 
 const getLeadMagnets = async (userId: string) => {
   try {
@@ -29,19 +29,8 @@ const getLeads = async (userId: string) => {
   }
 };
 
-const getSubscription = async (userId: string) => {
-  try {
-    const subscription = await prismadb.subscription.findUnique({
-      where: { userId },
-    });
 
-    return subscription;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
-//userId user_2Z1ejieeNvceauFHy4jUk8h6GQU
+
 async function LeadMagnetsPage() {
   const { userId } = auth();
 
@@ -51,19 +40,20 @@ async function LeadMagnetsPage() {
 
   const leadMagnetsRequest = getLeadMagnets(userId);
   const leadsRequest = getLeads(userId);
-  const subscriptionRequest = getSubscription(userId);
 
-  const [leadMagnets, leads, subscription] = await Promise.all([
+  const [leadMagnets, leads] = await Promise.all([
     leadMagnetsRequest,
     leadsRequest,
-    subscriptionRequest,
   ]);
 
   console.log("leadMagnets", leadMagnets);
   console.log("leads", leads);
 
   return (
-    <div>LeadMagnetsPage</div>
+    <LeadMagnetsContainer
+      leadMagnets={leadMagnets}
+      leads={leads}
+    />
   );
 }
 

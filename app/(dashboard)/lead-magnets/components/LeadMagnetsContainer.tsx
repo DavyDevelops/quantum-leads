@@ -1,54 +1,25 @@
-/**"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Lead, LeadMagnet, Subscription } from "@prisma/client";
-import Link from "next/link";
-import React from "react";
-import LeadMagnetTable from "./LeadMagnetTable";
-import { getPayingStatus } from "@/utils/stripe";
-import { MAXIMUM_FREE_LEAD_MAGNETS } from "@/lib/constants";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { HiOutlineSparkles } from "react-icons/hi";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { Lead, LeadMagnet } from "@prisma/client";
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+// import other necessary components or variables
 
 interface LeadMagnetsContainerProps {
   leadMagnets: LeadMagnet[];
   leads: Lead[];
-  subscription: Subscription | null;
 }
 
 function LeadMagnetsContainer({
   leadMagnets,
   leads,
-  subscription,
 }: LeadMagnetsContainerProps) {
-  const router = useRouter();
-  const [upgrading, setUpgrading] = React.useState(false);
-  const isActive = getPayingStatus(subscription);
+  console.log("LeadMagnets from inside the client", leadMagnets);
+  console.log("leads from inside the client", leads);
 
-  const isMaxFreeLeadMagnet =
-    !isActive && leadMagnets.length >= MAXIMUM_FREE_LEAD_MAGNETS;
-
-  const upgrade = async () => {
-    setUpgrading(true);
-    try {
-      const response = await axios.get("/api/stripe");
-
-      if (response.data.url) {
-        router.push(response.data.url);
-      } else {
-        console.error("Something went wrong with Stripe.");
-        toast.error("Something went wrong with Stripe.");
-      }
-    } catch (error) {
-      console.error("Something went wrong with Stripe.");
-      toast.error("Something went wrong with Stripe.");
-    } finally {
-      setUpgrading(false);
-    }
-  };
+  // define or calculate isMaxFreeLeadMagnet here
+  const isMaxFreeLeadMagnet = false; // replace with your logic
 
   return (
     <div className="p-6 w-full lg:max-w-5xl lg:mx-auto">
@@ -59,33 +30,9 @@ function LeadMagnetsContainer({
         </Button>
       </div>
 
-      <LeadMagnetTable leadMagnets={leadMagnets} leads={leads} />
-
-      {!isActive && (
-        <div className="flex flex-col w-full mt-8 items-center">
-          <Card>
-            <CardHeader className="text-center">
-              <CardTitle className="bg-gradient-to-r from-red-500 to-purple-500 inline-block text-transparent bg-clip-text pb-1 w-fit mx-auto">
-                Upgrade To Pro
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col">
-              <p className="font-semibold text-gray-700 mb-2">
-                {leadMagnets.length} / {MAXIMUM_FREE_LEAD_MAGNETS} Free Lead
-                Magnets Generated
-              </p>
-              <Button variant="ai" onClick={upgrade}>
-                <span className="mr-2">
-                  <HiOutlineSparkles />
-                </span>
-                {upgrading ? "Upgrading..." : "Upgrade"}
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+      {/** TODO Lead Magnets Table */}
     </div>
   );
 }
 
-export default LeadMagnetsContainer;*/
+export default LeadMagnetsContainer;
